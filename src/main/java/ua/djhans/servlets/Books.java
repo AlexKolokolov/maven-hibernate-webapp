@@ -18,7 +18,7 @@ public class Books extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int authorId = Integer.parseInt(req.getParameter("author_id"));
 
-        Collection<Book> books = HibernateDAO.getBooks(authorId);
+        Collection<Book> books = HibernateDAO.getDAO().getBooks(authorId);
 
         req.setAttribute("books", books);
         req.getRequestDispatcher("books.jsp").forward(req,resp);

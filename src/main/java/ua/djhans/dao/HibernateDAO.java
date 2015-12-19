@@ -20,23 +20,30 @@ import java.util.List;
  * Created by Administrator on 09.12.2015.
  */
 public class HibernateDAO {
-    private static final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
-    private static ServiceRegistry serviceRegistry;
-    private static SessionFactory sessionFactory;
+    private static HibernateDAO instance;
+    private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
+    private ServiceRegistry serviceRegistry;
+    private SessionFactory sessionFactory;
 
+    private HibernateDAO() {}
 
-    private static void init() {
+    public static HibernateDAO getDAO() {
+        if (instance == null) instance = new HibernateDAO();
+        return instance;
+    }
+
+    private void init() {
         Configuration configuration = new Configuration();
         configuration.configure("hibernate.cfg.xml");
         serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     }
 
-    private static void destroy() {
+    private void destroy() {
         StandardServiceRegistryBuilder.destroy(serviceRegistry);
     }
 
-    public static List<Book> getBooks(int authorId) {
+    public List<Book> getBooks(int authorId) {
         init();
         Session s = sessionFactory.getCurrentSession();
         s.beginTransaction();
@@ -48,7 +55,7 @@ public class HibernateDAO {
         return books;
     }
 
-    public static List<Writer> getWriters() {
+    public  List<Writer> getWriters() {
         init();
         Session s = sessionFactory.getCurrentSession();
         s.beginTransaction();
@@ -59,7 +66,7 @@ public class HibernateDAO {
     }
 
     public static void main(String[] args) {
-        List<Book> books = getBooks(0);
+        List<Book> books = HibernateDAO.getDAO().getBooks(0);
 
         for (Book book : books) System.out.println(book);
     }

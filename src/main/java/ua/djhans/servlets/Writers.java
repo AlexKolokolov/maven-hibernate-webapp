@@ -16,7 +16,7 @@ import java.util.Collection;
 public class Writers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Collection<Writer> writers = HibernateDAO.getWriters();
+        Collection<Writer> writers = HibernateDAO.getDAO().getWriters();
 
         req.setAttribute("writers", writers);
         req.getRequestDispatcher("writers.jsp").forward(req,resp);
