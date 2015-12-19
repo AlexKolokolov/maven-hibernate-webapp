@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Administrator on 09.12.2015.
  */
-public class HibernateDAO {
+public class HibernateDAO implements DAO {
     private static HibernateDAO instance;
     private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
     private ServiceRegistry serviceRegistry;
@@ -43,6 +43,7 @@ public class HibernateDAO {
         StandardServiceRegistryBuilder.destroy(serviceRegistry);
     }
 
+    @Override
     public List<Book> getBooks(int authorId) {
         init();
         Session s = sessionFactory.getCurrentSession();
@@ -55,6 +56,7 @@ public class HibernateDAO {
         return books;
     }
 
+    @Override
     public  List<Writer> getWriters() {
         init();
         Session s = sessionFactory.getCurrentSession();

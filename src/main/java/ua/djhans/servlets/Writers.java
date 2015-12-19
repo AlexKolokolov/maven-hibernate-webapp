@@ -1,5 +1,6 @@
 package ua.djhans.servlets;
 
+import ua.djhans.dao.DAO;
 import ua.djhans.dao.HibernateDAO;
 import ua.djhans.model.Writer;
 
@@ -16,7 +17,9 @@ import java.util.Collection;
 public class Writers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Collection<Writer> writers = HibernateDAO.getDAO().getWriters();
+
+        DAO dao = HibernateDAO.getDAO();
+        Collection<Writer> writers = dao.getWriters();
 
         req.setAttribute("writers", writers);
         req.getRequestDispatcher("writers.jsp").forward(req,resp);

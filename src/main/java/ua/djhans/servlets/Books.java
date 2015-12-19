@@ -1,5 +1,6 @@
 package ua.djhans.servlets;
 
+import ua.djhans.dao.DAO;
 import ua.djhans.model.Book;
 import ua.djhans.dao.HibernateDAO;
 
@@ -18,7 +19,8 @@ public class Books extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int authorId = Integer.parseInt(req.getParameter("author_id"));
 
-        Collection<Book> books = HibernateDAO.getDAO().getBooks(authorId);
+        DAO dao = HibernateDAO.getDAO();
+        Collection<Book> books = dao.getBooks(authorId);
 
         req.setAttribute("books", books);
         req.getRequestDispatcher("books.jsp").forward(req,resp);
