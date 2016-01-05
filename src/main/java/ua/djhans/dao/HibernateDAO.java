@@ -69,7 +69,6 @@ public class HibernateDAO implements DAO {
 
     public static void main(String[] args) {
         List<Book> books = HibernateDAO.getDAO().getBooks(0);
-
-        for (Book book : books) System.out.println(book);
+        books.forEach(System.out::println);
     }
 }
